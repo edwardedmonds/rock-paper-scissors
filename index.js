@@ -1,5 +1,5 @@
-const prompt = require('prompt-sync')();
-let colors = require('@colors/colors');
+import prompt from 'prompt-sync';
+let question = prompt();
 
 // make a function to return computer choice
 function computerChoice() {
@@ -15,7 +15,7 @@ function computerChoice() {
 
 // make a function to return the player choice
 function playerChoice() {
-  let playerSelection = prompt('Choose rock, paper, or scissors: ').toLowerCase();
+  let playerSelection = question('Choose rock, paper, or scissors: ').toLowerCase();
   return playerSelection;
 }
 
@@ -28,13 +28,13 @@ function playerVersusComputer() {
   let computer = computerChoice();
 
   if (player == computer) {
-    return 'Tie'.magenta.bold;
+    return 'Tie';
   } else if ((player === 'rock' && computer === 'scissors') || (player === 'paper' && computer === 'rock') || (player === 'scissors' && computer === 'paper')) {
     playerWins++;
-    return 'Player Wins'.yellow.bold;
+    return 'Player Wins';
   } else if ((computer === 'rock' && player === 'scissors') || (computer === 'paper' && player == 'rock') || (computer === 'scissors' && player === 'paper')) {
     computerWins++;
-    return 'Computer Wins'.cyan.bold;
+    return 'Computer Wins';
   }
 }
 
@@ -48,7 +48,7 @@ function playGame(howManyRounds) {
   let numberOfRoundsToPlay = howManyRounds;
 
   console.log('---------');
-  console.log('Rock, Paper, Scissors!'.rainbow.bgWhite);
+  console.log('Rock, Paper, Scissors!');
   console.log(`Number of rounds we are going to play: ${numberOfRoundsToPlay}`);  
   console.log('---------');
 
@@ -59,15 +59,15 @@ function playGame(howManyRounds) {
   }
 
   if (playerWins > computerWins) {
-    console.log('Player Wins!'.rainbow.bgWhite);
+    console.log('Player Wins!');
   } else if (playerWins < computerWins) {
-    console.log('Computer Wins!'.rainbow.bgWhite);
+    console.log('Computer Wins!');
   } else {
-    console.log('Tie!'.rainbow.bgWhite);
+    console.log('Tie!');
   }
 }
 
 // prompt for how many games we should play then call playGame()
-console.log('Welcome to Rock, Paper, Scissors. A game of ESP brute force!'.white.bgRed);
-let numberOfRounds = prompt('How many rounds would you like to play? ');
+console.log('Welcome to Rock, Paper, Scissors. A game of ESP brute force!');
+let numberOfRounds = question('How many rounds would you like to play? ');
 playGame(numberOfRounds);

@@ -1,5 +1,7 @@
-const prompt = require('prompt-sync')();
+import prompt from 'prompt-sync';
 
-const name = prompt('What is your name? ');
+let question = prompt();
 
-console.log(`Hey there ${name}!`);
+let name = question('What is your name? ');
+
+console.log(`Hello ${name}`);

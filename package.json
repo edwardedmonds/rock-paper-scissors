@@ -7,6 +7,7 @@
   },
   "name": "rock-paper-scissors",
   "description": "Rock, paper, scissors game for The Odin Project",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {},
