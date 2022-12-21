@@ -1,4 +1,5 @@
 import prompt from 'prompt-sync';
+import inquirer from 'inquirer';
 
 // Wrapper function to make prompt from prompt-sync human readable
 function askUserQuestion(question) {
@@ -73,5 +74,14 @@ function playGame(howManyRounds) {
 
 // Ask the user how many games we should play then call playGame()
 console.log('Welcome to Rock, Paper, Scissors. A game of ESP brute force!');
-let numberOfRounds = askUserQuestion('How many rounds would you like to play? ');
-playGame(numberOfRounds);
+
+const numberOfRounds = inquirer.prompt([
+  {
+    name: 'numberOfRounds',
+    type: 'input',
+    message: 'How many rounds would you like to play?',
+  },
+])
+.then((answer) => {
+  playGame(answer.numberOfRounds);
+});
