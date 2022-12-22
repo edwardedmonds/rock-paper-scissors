@@ -46,7 +46,7 @@ async function playRound(playerSelection, computerSelection) {
   } else if (
     (playerSelection === 'rock' && computerSelection === 'scissors') || (playerSelection === 'paper' && computerSelection === 'rock') || (playerSelection === 'scissors' && computerSelection === 'paper')) {
     scoreCard.playerWins++;
-    return chalk.green('player wins!'.toUpperCase());
+    return chalk.green(`${scoreCard.playerName} wins!`.toUpperCase());
   } else if ((computerSelection === 'rock' && playerSelection === 'scissors') || (computerSelection === 'paper' && playerSelection == 'rock') || (computerSelection === 'scissors' && playerSelection === 'paper')) {
     scoreCard.computerWins++;
     return chalk.magenta('computer wins!'.toUpperCase());
@@ -55,7 +55,7 @@ async function playRound(playerSelection, computerSelection) {
 
 function whoWinsTheGame() {
   if (scoreCard.playerWins > scoreCard.computerWins) {
-    return 'player wins the game!'.toUpperCase();  
+    return '${scoreCard.playerName} wins the game!'.toUpperCase();  
   } else if (scoreCard.playerWins < scoreCard.computerWins) {
     return 'computer wins the game!'.toUpperCase();
   } else {
