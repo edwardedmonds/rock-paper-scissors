@@ -55,7 +55,7 @@ async function playRound(playerSelection, computerSelection) {
 
 function whoWinsTheGame() {
   if (scoreCard.playerWins > scoreCard.computerWins) {
-    return '${scoreCard.playerName} wins the game!'.toUpperCase();  
+    return `${scoreCard.playerName} wins the game!`.toUpperCase();  
   } else if (scoreCard.playerWins < scoreCard.computerWins) {
     return 'computer wins the game!'.toUpperCase();
   } else {
