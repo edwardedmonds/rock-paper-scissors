@@ -2,6 +2,9 @@
 
 Rock, paper, scissors game for The Odin Project.
 
+![Rock, paper, scissors](./img/screenshot-1.gif 'Rock, Paper, Scissors Demo')
+![Rock, paper, scissors](./img/screenshot-2.gif 'Rock, Paper, Scissors Demo')
+
 ## Installation
 
 There are number of files in the root directory I used for testing
@@ -40,3 +43,5 @@ report historical scores and win percentages displayed with some kind
 of TUI widget. And there is always room for some error checking. I would
 also like to add the ability to set number of matches when the program is
 launched with flags.
+
+![Rock, paper, scissors, code](./img/screenshot-3.gif 'Rock, Paper, Scissors Demo')
