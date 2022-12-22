@@ -12,7 +12,7 @@ function computerChoice() {
 }
 
 
-function playRound() {
+async function playRound() {
   let playerChoice = {
     type: 'list',
     name: 'playerSelection',
@@ -20,14 +20,13 @@ function playRound() {
     choices: ['rock', 'paper', 'scissors'],
   };
 
-  inquirer.prompt(playerChoice).then((answers) => {
+  const winner = await inquirer.prompt(playerChoice).then((answers) => {
     let player = answers.playerSelection;
     console.log(`You selected: ${player}`);
     let computer = computerChoice();
     console.log(`The computer selected: ${computer}`);
   });
 }
-
 
 function playGame() {
 
@@ -50,10 +49,11 @@ function playGame() {
     let numberOfRoundsToPlay = answers.howManyRoundsToPlay;
     let playerName = answers.playerName;
     console.log(`Hello ${playerName}! We will play ${numberOfRoundsToPlay} rounds.`);
-    
+
     for (let numberOfRoundsPlayed = 1; numberOfRoundsPlayed <= numberOfRoundsToPlay; numberOfRoundsPlayed++) {
       playRound();
     }
+
   });
 
 }
