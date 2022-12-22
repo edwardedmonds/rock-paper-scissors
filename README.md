@@ -34,7 +34,7 @@ the program more straight forward and I broke down the program
 into several functions to make both reading the code and
 following the logic easier.
 
-## Future features
+## Future Features
 
 Although the game is relatively simple, there is a lot of features
 I want to add to challenge my knowledge. I would like to add the ability
