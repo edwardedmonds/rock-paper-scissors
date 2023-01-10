@@ -87,9 +87,8 @@ async function askForPlayerName() {
     default: 'player1',
   };
 
-  await inquirer.prompt(whatIsYourName).then((answer) => {
-    scoreCard.playerName = answer.myNameIs;
-  });
+  const { myNameIs } = await inquirer.prompt(whatIsYourName);
+  scoreCard.playerName = myNameIs;
 }
 
 async function playGame() {
