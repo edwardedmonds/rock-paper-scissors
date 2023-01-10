@@ -1,6 +1,7 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import boxen from 'boxen';
+import ora from 'ora';
 
 const scoreCard = {
   numberOfRoundsToPlay: 0,
@@ -9,7 +10,7 @@ const scoreCard = {
   playerWins: 0,
   computerWins: 0,
   ties: 0,
-} 
+};
 
 function computerChoice() {
   let computerSelection = Math.floor(Math.random() * 3);
@@ -28,15 +29,11 @@ async function playerChoice() {
     name: 'playerItemSelection',
     message: 'What item do you want to pick?',
     choices: ['rock', 'paper', 'scissors'],
-  }
+  };
 
-  let playerSelection = '';
+  const { playerItemSelection } = await inquirer.prompt(playerItemChoice);
 
-  await inquirer.prompt(playerItemChoice).then((answer) => {
-    playerSelection = answer.playerItemSelection;
-  });
-
-  return playerSelection;
+  return playerItemSelection;
 }
 
 async function playRound(playerSelection, computerSelection) {
@@ -44,10 +41,17 @@ async function playRound(playerSelection, computerSelection) {
     scoreCard.ties++;
     return chalk.blue('tie!'.toUpperCase());
   } else if (
-    (playerSelection === 'rock' && computerSelection === 'scissors') || (playerSelection === 'paper' && computerSelection === 'rock') || (playerSelection === 'scissors' && computerSelection === 'paper')) {
+    (playerSelection === 'rock' && computerSelection === 'scissors') ||
+    (playerSelection === 'paper' && computerSelection === 'rock') ||
+    (playerSelection === 'scissors' && computerSelection === 'paper')
+  ) {
     scoreCard.playerWins++;
     return chalk.green(`${scoreCard.playerName} wins!`.toUpperCase());
-  } else if ((computerSelection === 'rock' && playerSelection === 'scissors') || (computerSelection === 'paper' && playerSelection == 'rock') || (computerSelection === 'scissors' && playerSelection === 'paper')) {
+  } else if (
+    (computerSelection === 'rock' && playerSelection === 'scissors') ||
+    (computerSelection === 'paper' && playerSelection == 'rock') ||
+    (computerSelection === 'scissors' && playerSelection === 'paper')
+  ) {
     scoreCard.computerWins++;
     return chalk.magenta('computer wins!'.toUpperCase());
   }
@@ -55,7 +59,7 @@ async function playRound(playerSelection, computerSelection) {
 
 function whoWinsTheGame() {
   if (scoreCard.playerWins > scoreCard.computerWins) {
-    return `${scoreCard.playerName} wins the game!`.toUpperCase();  
+    return `${scoreCard.playerName} wins the game!`.toUpperCase();
   } else if (scoreCard.playerWins < scoreCard.computerWins) {
     return 'computer wins the game!'.toUpperCase();
   } else {
@@ -69,7 +73,7 @@ async function askHowManyRoundsToPlay() {
     name: 'numberOfRoundsSelected',
     message: `How many rounds would you like to play ${scoreCard.playerName}?`,
     default: 5,
-  }
+  };
 
   await inquirer.prompt(howManyRounds).then((answer) => {
     scoreCard.numberOfRoundsToPlay = answer.numberOfRoundsSelected;
@@ -82,16 +86,17 @@ async function askForPlayerName() {
     name: 'myNameIs',
     message: 'What is your name?',
     default: 'player1',
-  }
-  
+  };
+
   await inquirer.prompt(whatIsYourName).then((answer) => {
     scoreCard.playerName = answer.myNameIs;
   });
 }
 
 async function playGame() {
-
-  console.log(boxen('Rock! Paper! Scissors!', {padding: 1, borderColor: 'cyan'}));
+  console.log(
+    boxen('Rock! Paper! Scissors!', { padding: 1, borderColor: 'cyan' })
+  );
 
   await askForPlayerName();
 
@@ -104,7 +109,7 @@ async function playGame() {
     scoreCard.numberOfRoundsPlayed++;
   }
 
-  console.log(boxen(whoWinsTheGame(), {padding: 1, borderColor: 'cyan'}));
+  console.log(boxen(whoWinsTheGame(), { padding: 1, borderColor: 'cyan' }));
 }
 
 playGame();
