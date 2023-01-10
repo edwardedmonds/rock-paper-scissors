@@ -75,9 +75,8 @@ async function askHowManyRoundsToPlay() {
     default: 5,
   };
 
-  await inquirer.prompt(howManyRounds).then((answer) => {
-    scoreCard.numberOfRoundsToPlay = answer.numberOfRoundsSelected;
-  });
+  const { numberOfRoundsSelected } = await inquirer.prompt(howManyRounds);
+  scoreCard.numberOfRoundsToPlay = numberOfRoundsSelected;
 }
 
 async function askForPlayerName() {
