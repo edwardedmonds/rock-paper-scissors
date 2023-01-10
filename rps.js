@@ -103,9 +103,8 @@ async function playGame() {
   await askHowManyRoundsToPlay();
 
   while (scoreCard.numberOfRoundsPlayed < scoreCard.numberOfRoundsToPlay) {
-    await playRound(await playerChoice(), computerChoice()).then((whoWon) => {
-      console.log(whoWon);
-    });
+    let whoWon = await playRound(await playerChoice(), computerChoice());
+    console.log(whoWon);
     scoreCard.numberOfRoundsPlayed++;
   }
 
