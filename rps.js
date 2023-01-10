@@ -32,27 +32,28 @@ async function playerChoice() {
 function playRound(playerSelection, computerSelection) {
   const choices = { rock: 0, paper: 1, scissors: 2 };
   const result = (choices[playerSelection] + choices[computerSelection]) % 3;
-  switch (result) {
-    case 0:
-      scoreCard.ties++;
-      return chalk.blue('tie!'.toUpperCase());
-    case 1:
-      scoreCard.computerWins++;
-      return chalk.magenta('computer wins!'.toUpperCase());
-    case 2:
-      scoreCard.playerWins++;
-      return chalk.green(`${scoreCard.playerName} wins!`.toUpperCase());
-  }
+  const outcomes = ['tie', 'computer wins', 'player wins'];
+  // result will be 0 if the result is a tie, 1 if the computer wins and 2 if the player wins.
+  return outcomes[result];
 }
 
-function whoWinsTheGame() {
-  if (scoreCard.playerWins > scoreCard.computerWins) {
-    return `${scoreCard.playerName} wins the game!`.toUpperCase();
-  } else if (scoreCard.playerWins < scoreCard.computerWins) {
-    return 'computer wins the game!'.toUpperCase();
-  } else {
-    return 'tie game!'.toUpperCase();
-  }
+// function whoWinsTheGame() {
+//   if (scoreCard.playerWins > scoreCard.computerWins) {
+//     return `${scoreCard.playerName} wins the game!`.toUpperCase();
+//   } else if (scoreCard.playerWins < scoreCard.computerWins) {
+//     return 'computer wins the game!'.toUpperCase();
+//   } else {
+//     return 'tie game!'.toUpperCase();
+//   }
+// }
+
+function determineWinner() {
+  const { playerName, playerWins, computerWins } = scoreCard;
+  return playerWins > computerWins
+    ? `${playerName} wins`
+    : playerWins < computerWins
+    ? 'computer wins'
+    : 'tie';
 }
 
 async function askHowManyRoundsToPlay() {
@@ -87,12 +88,12 @@ async function playGame() {
   scoreCard.numberOfRoundsToPlay = await askHowManyRoundsToPlay();
 
   while (scoreCard.numberOfRoundsPlayed < scoreCard.numberOfRoundsToPlay) {
-    let whoWon = await playRound(await playerChoice(), computerChoice());
-    console.log(whoWon);
+    let outcome = playRound(await playerChoice(), computerChoice());
+    console.log(outcome);
     scoreCard.numberOfRoundsPlayed++;
   }
 
-  console.log(boxen(whoWinsTheGame(), { padding: 1, borderColor: 'cyan' }));
+  console.log(boxen(determineWinner(), { padding: 1, borderColor: 'cyan' }));
 }
 
 playGame();
