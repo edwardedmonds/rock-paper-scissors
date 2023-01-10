@@ -1,7 +1,5 @@
 import inquirer from 'inquirer';
-import chalk from 'chalk';
 import boxen from 'boxen';
-import ora from 'ora';
 
 const scoreCard = {
   numberOfRoundsToPlay: 0,
@@ -11,12 +9,6 @@ const scoreCard = {
   computerWins: 0,
   ties: 0,
 };
-
-function computerChoice() {
-  const choices = ['rock', 'paper', 'scissors'];
-  let computerSelection = Math.floor(Math.random() * 3);
-  return choices[computerSelection];
-}
 
 async function playerChoice() {
   const playerItemChoice = {
@@ -29,10 +21,20 @@ async function playerChoice() {
   return (await inquirer.prompt(playerItemChoice)).playerItemSelection;
 }
 
-function playRound(playerSelection, computerSelection) {
+function computerChoice() {
+  const choices = ['rock', 'paper', 'scissors'];
+  let computerSelection = Math.floor(Math.random() * 3);
+  return choices[computerSelection];
+}
+
+async function playRound() {
+  const playerSelection = await playerChoice();
+  const computerSelection = computerChoice();
+
   const choices = { rock: 0, paper: 1, scissors: 2 };
   const result = (choices[playerSelection] + choices[computerSelection]) % 3;
-  const outcomes = ['tie', 'computer wins', 'player wins'];
+  const outcomes = ['Tie', 'Computer wins', 'Player wins'];
+
   // result will be 0 if the result is a tie, 1 if the computer wins and 2 if the player wins.
   return { outcome: outcomes[result], computerChoice: computerSelection };
 }
@@ -40,10 +42,10 @@ function playRound(playerSelection, computerSelection) {
 function determineWinner() {
   const { playerName, playerWins, computerWins } = scoreCard;
   return playerWins > computerWins
-    ? `${playerName} wins`
+    ? `${playerName} wins!`
     : playerWins < computerWins
-    ? 'computer wins'
-    : 'tie';
+    ? 'Computer wins!'
+    : 'Tie game!';
 }
 
 async function askHowManyRoundsToPlay() {
@@ -78,10 +80,7 @@ async function playGame() {
   scoreCard.numberOfRoundsToPlay = await askHowManyRoundsToPlay();
 
   while (scoreCard.numberOfRoundsPlayed < scoreCard.numberOfRoundsToPlay) {
-    let { outcome, computerChoice } = playRound(
-      await playerChoice(),
-      computerChoice()
-    );
+    let { outcome, computerChoice } = await playRound();
     console.log(`Computer chose ${computerChoice}. ${outcome}!`);
     scoreCard.numberOfRoundsPlayed++;
   }
