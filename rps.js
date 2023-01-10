@@ -34,18 +34,8 @@ function playRound(playerSelection, computerSelection) {
   const result = (choices[playerSelection] + choices[computerSelection]) % 3;
   const outcomes = ['tie', 'computer wins', 'player wins'];
   // result will be 0 if the result is a tie, 1 if the computer wins and 2 if the player wins.
-  return outcomes[result];
+  return { outcome: outcomes[result], computerChoice: computerSelection };
 }
-
-// function whoWinsTheGame() {
-//   if (scoreCard.playerWins > scoreCard.computerWins) {
-//     return `${scoreCard.playerName} wins the game!`.toUpperCase();
-//   } else if (scoreCard.playerWins < scoreCard.computerWins) {
-//     return 'computer wins the game!'.toUpperCase();
-//   } else {
-//     return 'tie game!'.toUpperCase();
-//   }
-// }
 
 function determineWinner() {
   const { playerName, playerWins, computerWins } = scoreCard;
@@ -88,8 +78,11 @@ async function playGame() {
   scoreCard.numberOfRoundsToPlay = await askHowManyRoundsToPlay();
 
   while (scoreCard.numberOfRoundsPlayed < scoreCard.numberOfRoundsToPlay) {
-    let outcome = playRound(await playerChoice(), computerChoice());
-    console.log(outcome);
+    let { outcome, computerChoice } = playRound(
+      await playerChoice(),
+      computerChoice()
+    );
+    console.log(`Computer chose ${computerChoice}. ${outcome}!`);
     scoreCard.numberOfRoundsPlayed++;
   }
 
