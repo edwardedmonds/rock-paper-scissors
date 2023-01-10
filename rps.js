@@ -13,14 +13,9 @@ const scoreCard = {
 };
 
 function computerChoice() {
+  const choices = ['rock', 'paper', 'scissors'];
   let computerSelection = Math.floor(Math.random() * 3);
-  if (computerSelection === 0) {
-    return 'rock';
-  } else if (computerSelection === 1) {
-    return 'paper';
-  } else if (computerSelection === 2) {
-    return 'scissors';
-  }
+  return choices[computerSelection];
 }
 
 async function playerChoice() {
@@ -31,9 +26,7 @@ async function playerChoice() {
     choices: ['rock', 'paper', 'scissors'],
   };
 
-  const { playerItemSelection } = await inquirer.prompt(playerItemChoice);
-
-  return playerItemSelection;
+  return (await inquirer.prompt(playerItemChoice)).playerItemSelection;
 }
 
 async function playRound(playerSelection, computerSelection) {
@@ -75,8 +68,7 @@ async function askHowManyRoundsToPlay() {
     default: 5,
   };
 
-  const { numberOfRoundsSelected } = await inquirer.prompt(howManyRounds);
-  scoreCard.numberOfRoundsToPlay = numberOfRoundsSelected;
+  return (await inquirer.prompt(howManyRounds)).numberOfRoundsSelected;
 }
 
 async function askForPlayerName() {
@@ -87,8 +79,7 @@ async function askForPlayerName() {
     default: 'player1',
   };
 
-  const { myNameIs } = await inquirer.prompt(whatIsYourName);
-  scoreCard.playerName = myNameIs;
+  return (await inquirer.prompt(whatIsYourName)).myNameIs;
 }
 
 async function playGame() {
@@ -96,9 +87,9 @@ async function playGame() {
     boxen('Rock! Paper! Scissors!', { padding: 1, borderColor: 'cyan' })
   );
 
-  await askForPlayerName();
+  scoreCard.playerName = await askForPlayerName();
 
-  await askHowManyRoundsToPlay();
+  scoreCard.numberOfRoundsToPlay = await askHowManyRoundsToPlay();
 
   while (scoreCard.numberOfRoundsPlayed < scoreCard.numberOfRoundsToPlay) {
     let whoWon = await playRound(await playerChoice(), computerChoice());
