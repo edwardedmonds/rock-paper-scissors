@@ -29,24 +29,19 @@ async function playerChoice() {
   return (await inquirer.prompt(playerItemChoice)).playerItemSelection;
 }
 
-async function playRound(playerSelection, computerSelection) {
-  if (playerSelection == computerSelection) {
-    scoreCard.ties++;
-    return chalk.blue('tie!'.toUpperCase());
-  } else if (
-    (playerSelection === 'rock' && computerSelection === 'scissors') ||
-    (playerSelection === 'paper' && computerSelection === 'rock') ||
-    (playerSelection === 'scissors' && computerSelection === 'paper')
-  ) {
-    scoreCard.playerWins++;
-    return chalk.green(`${scoreCard.playerName} wins!`.toUpperCase());
-  } else if (
-    (computerSelection === 'rock' && playerSelection === 'scissors') ||
-    (computerSelection === 'paper' && playerSelection == 'rock') ||
-    (computerSelection === 'scissors' && playerSelection === 'paper')
-  ) {
-    scoreCard.computerWins++;
-    return chalk.magenta('computer wins!'.toUpperCase());
+function playRound(playerSelection, computerSelection) {
+  const choices = { rock: 0, paper: 1, scissors: 2 };
+  const result = (choices[playerSelection] + choices[computerSelection]) % 3;
+  switch (result) {
+    case 0:
+      scoreCard.ties++;
+      return chalk.blue('tie!'.toUpperCase());
+    case 1:
+      scoreCard.computerWins++;
+      return chalk.magenta('computer wins!'.toUpperCase());
+    case 2:
+      scoreCard.playerWins++;
+      return chalk.green(`${scoreCard.playerName} wins!`.toUpperCase());
   }
 }
 
