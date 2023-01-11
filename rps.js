@@ -1,5 +1,4 @@
 import inquirer from 'inquirer';
-import boxen from 'boxen';
 
 const scoreCard = {
   numberOfRoundsToPlay: 0,
@@ -107,9 +106,7 @@ function logRoundOutcome(roundNumber, playerChoice, computerChoice, outcome) {
 }
 
 async function playGame() {
-  console.log(
-    boxen('Rock! Paper! Scissors!', { padding: 1, borderColor: 'cyan' })
-  );
+  console.log('Rock, paper, scissors');
 
   await askForPlayerName();
 
@@ -126,7 +123,7 @@ async function playGame() {
     scoreCard.numberOfRoundsPlayed++;
   }
 
-  console.log(boxen(determineWinner(), { padding: 1, borderColor: 'cyan' }));
+  console.log(determineWinner());
 }
 
 playGame();
