@@ -56,13 +56,11 @@ async function playRound() {
 }
 
 function updateScoreCard(result) {
-  if (result === 2) {
-    scoreCard.playerWins++;
-  } else if (result === 1) {
-    scoreCard.computerWins++;
-  } else {
-    scoreCard.ties++;
-  }
+  result === 2
+    ? scoreCard.playerWins++
+    : result === 1
+    ? scoreCard.computerWins++
+    : scoreCard.ties++;
 }
 
 function determineWinner() {
