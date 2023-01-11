@@ -10,6 +10,18 @@ const scoreCard = {
   ties: 0,
 };
 
+const choices = {
+  0: 'rock',
+  1: 'paper',
+  2: 'scissors',
+};
+
+const outcomeLookup = {
+  2: 'Player wins',
+  1: 'Computer wins',
+  0: 'Tie',
+};
+
 async function playerChoice() {
   const playerItemChoice = {
     type: 'list',
@@ -18,25 +30,39 @@ async function playerChoice() {
     choices: ['rock', 'paper', 'scissors'],
   };
 
-  return (await inquirer.prompt(playerItemChoice)).playerItemSelection;
+  const playerSelection = (await inquirer.prompt(playerItemChoice))
+    .playerItemSelection;
+  return playerSelection === 'rock' ? 0 : playerSelection === 'paper' ? 1 : 2;
 }
 
 function computerChoice() {
-  const choices = ['rock', 'paper', 'scissors'];
-  let computerSelection = Math.floor(Math.random() * 3);
-  return choices[computerSelection];
+  return Math.floor(Math.random() * 3);
 }
 
 async function playRound() {
   const playerSelection = await playerChoice();
   const computerSelection = computerChoice();
 
-  const choices = { rock: 0, paper: 1, scissors: 2 };
-  const result = (choices[playerSelection] + choices[computerSelection]) % 3;
-  const outcomes = ['Tie', 'Computer wins', 'Player wins'];
+  const result = (playerSelection + computerSelection) % 3;
+
+  updateScoreCard(result);
 
   // result will be 0 if the result is a tie, 1 if the computer wins and 2 if the player wins.
-  return { outcome: outcomes[result], computerChoice: computerSelection };
+  return {
+    outcome: result,
+    playerChoice: playerSelection,
+    computerChoice: computerSelection,
+  };
+}
+
+function updateScoreCard(result) {
+  if (result === 2) {
+    scoreCard.playerWins++;
+  } else if (result === 1) {
+    scoreCard.computerWins++;
+  } else {
+    scoreCard.ties++;
+  }
 }
 
 function determineWinner() {
@@ -56,7 +82,9 @@ async function askHowManyRoundsToPlay() {
     default: 5,
   };
 
-  return (await inquirer.prompt(howManyRounds)).numberOfRoundsSelected;
+  scoreCard.numberOfRoundsToPlay = (
+    await inquirer.prompt(howManyRounds)
+  ).numberOfRoundsSelected;
 }
 
 async function askForPlayerName() {
@@ -67,7 +95,17 @@ async function askForPlayerName() {
     default: 'player1',
   };
 
-  return (await inquirer.prompt(whatIsYourName)).myNameIs;
+  scoreCard.playerName = (await inquirer.prompt(whatIsYourName)).myNameIs;
+  outcomeLookup[2] = `${scoreCard.playerName} wins`;
+}
+
+function logRoundOutcome(roundNumber, playerChoice, computerChoice, outcome) {
+  let outcomeString = outcomeLookup[outcome];
+  console.log(
+    `Round ${roundNumber + 1}: ${choices[playerChoice]} vs ${
+      choices[computerChoice]
+    } - ${outcomeString}`
+  );
 }
 
 async function playGame() {
@@ -75,13 +113,18 @@ async function playGame() {
     boxen('Rock! Paper! Scissors!', { padding: 1, borderColor: 'cyan' })
   );
 
-  scoreCard.playerName = await askForPlayerName();
+  await askForPlayerName();
 
-  scoreCard.numberOfRoundsToPlay = await askHowManyRoundsToPlay();
+  await askHowManyRoundsToPlay();
 
   while (scoreCard.numberOfRoundsPlayed < scoreCard.numberOfRoundsToPlay) {
-    let { outcome, computerChoice } = await playRound();
-    console.log(`Computer chose ${computerChoice}. ${outcome}!`);
+    let { outcome, playerChoice, computerChoice } = await playRound();
+    logRoundOutcome(
+      scoreCard.numberOfRoundsPlayed,
+      playerChoice,
+      computerChoice,
+      outcome
+    );
     scoreCard.numberOfRoundsPlayed++;
   }
 
