@@ -46,7 +46,7 @@ async function playRound() {
 
   updateScoreCard(result);
 
-  // result will be 0 if the result is a tie, 1 if the computer wins and 2 if the player wins.
+  // Result will be 0 if the result is a tie, 1 if the computer wins and 2 if the player wins.
   return {
     outcome: result,
     playerChoice: playerSelection,

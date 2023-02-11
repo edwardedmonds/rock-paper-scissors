@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/edwardedmonds/rock-paper-scissors/issues"
   },
-  "homepage": "https://github.com/edwardedmonds/rock-paper-scissors#readme"
+  "homepage": "https://github.com/edwardedmonds/rock-paper-scissors#readme",
+  "devDependencies": {
+    "bun-types": "^0.4.0"
+  }
 }
